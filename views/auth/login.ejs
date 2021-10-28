@@ -1,5 +1,19 @@
-<form action="/login" method="post">
-<input type="text" name="name" id="name">
-<input type="text" name="password" id="password">
-<button type="submit">Log in</button>
-</form>
+<div class="ui segment">
+
+  <div class="ui loginWrapper">
+      <h3>PŘIHLÁŠENÍ</h3>
+      <div class="ui divider"></div>
+    <form action="/login" method="post" class="ui form">
+      <div class="field">
+        <label for=""> UŽ. JMÉNO </label>
+        <input type="text" placeholder="jméno" name="name"/>
+      </div>
+      <div class="field">
+        <label for=""> HESLO </label>
+        <input type="password" placeholder="heslo" name="password" />
+      </div>
+
+<button class="ui button">Přihlásit</button>
+    </form>
+  </div>
+</div>
