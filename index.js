@@ -42,10 +42,13 @@ var myLogger = function (req, res, next) {
   next();
 };
 
-app.use(myLogger);
+
 app.use('/', require("./routes/index.js"));
 app.use('/people', require('./routes/people.js'));
 app.use('/acc', require('./routes/acc.js'))
+
+app.use(myLogger);
+
 app.listen(1380, () => {
   console.log("server is running.");
 });
