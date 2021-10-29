@@ -3,10 +3,10 @@ const User = require("../models/User");
 const router = express.Router();
 const mongoose = require("mongoose");
 const mainController = require('../controllers/MainController.js')
-const AccountController = require('../controllers/AccountController')
+const authController = require('../controllers/AuthController.js')
 const {ensureAuthenticated, forwardAuthenticated} = require('../config/auth')
 
-router.get("/",ensureAuthenticated, AccountController.getAccountView);
+router.get('/', ensureAuthenticated ,mainController.getDashboard);
 
 
-module.exports = router;
+module.exports = router

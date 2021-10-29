@@ -3,13 +3,14 @@ const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const passport = require("passport");
 // Passport Config
-require("./config/passport")(passport);
+
 const mongoose = require("mongoose");
 const { mongoURI } = require("./config/keys");
 const app = express();
 const path = require("path");
 const flash = require("connect-flash");
 
+require("./config/passport")(passport);
 db = mongoURI;
 mongoose
   .connect(db, {
@@ -39,13 +40,14 @@ var myLogger = function (req, res, next) {
     new Date().toLocaleString("cs-EN").replace(" ", "").replace(" ", "")
   );
   console.log(req.session);
-  next();
+  next()
 };
 
 
-app.use('/', require("./routes/index.js"));
-app.use('/people', require('./routes/people.js'));
+app.use('/', require("./routes/index.js"))
+app.use('/people', require('./routes/people.js'))
 app.use('/acc', require('./routes/acc.js'))
+app.use('/posts', require('./routes/posts.js'))
 
 app.use(myLogger);
 

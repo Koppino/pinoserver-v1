@@ -1,6 +1,6 @@
-const User = require("../models/User");
 
-module.exports.getAcc = (req, res) => {
+
+module.exports.getAccountView = (req, res) => {
 
     res.render('acc',{user: req.user})
 };
