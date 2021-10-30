@@ -11,4 +11,6 @@ router.get('/', ensureAuthenticated ,personController.getPeople);
 router.get('/add', ensureAuthenticated, personController.getAddView)
 router.post('/add', ensureAuthenticated, personController.addPerson)
 
+router.get('/get/:_id',ensureAuthenticated, personController.getPersonById)
+
 module.exports = router

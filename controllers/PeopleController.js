@@ -1,11 +1,12 @@
+const { ensureAuthenticated } = require("../config/auth");
 const Person = require("../models/Person");
 const User = require("../models/User");
 
 module.exports.getPeople = (req, res) => {
-  Person.find({user:req.user, isDeleted: false }, (err, people) => {
+  Person.find({ user: req.user, isDeleted: false }, (err, people) => {
     if (err) console.log(err);
-    res.render("people", { user: req.user,people:people });
-});
+    res.render("people", { user: req.user, people: people });
+  });
 };
 
 module.exports.getAddView = (req, res) => {
@@ -15,7 +16,7 @@ module.exports.getAddView = (req, res) => {
 module.exports.addPerson = (req, res) => {
   const nickname = req.body.nickname;
   if (nickname) {
-    Person.findOne({ name: nickname },async (err, userExists) => {
+    Person.findOne({ name: nickname }, async (err, userExists) => {
       if (err) console.log(err);
 
       if (userExists) {
@@ -32,23 +33,23 @@ module.exports.addPerson = (req, res) => {
             if (err) console.log(err);
             let newId = 0;
             if (lastPerson.length >= 1) {
-              newId = lastPerson[lastPerson.length-1].personalId
+              newId = lastPerson[lastPerson.length - 1].personalId;
               console.log(newId);
             }
             const newPerson = new Person({
               name: nickname,
-              personalId: newId+1,
+              personalId: newId + 1,
               user: req.user,
               zaznamy: [],
             });
 
             newPerson.save((err) => {
-                if(err) console.log(err)
+              if (err) console.log(err);
               console.log(newPerson + "uložen");
               res.redirect("/person");
             });
-         
-        } );
+          }
+        );
       }
     });
   } else {
@@ -57,4 +58,15 @@ module.exports.addPerson = (req, res) => {
       errMsg: "Pole nesmí být prázdné !",
     });
   }
+};
+
+module.exports.getPersonById = (req, res) => {
+  const _id = req.params._id;
+
+  Person.findOne({ _id: _id }, (err, person) => {
+    if (err) console.log(err);
+    console.log(person);
+
+    res.render("people/person", { user: req.user, person: person });
+  });
 };
