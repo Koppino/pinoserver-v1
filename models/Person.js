@@ -5,6 +5,7 @@ const PersonSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    personalId:{type:Number},
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

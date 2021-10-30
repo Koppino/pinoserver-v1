@@ -1,0 +1,25 @@
+<%- include('subnav') %>
+</div>
+<div class="ui segment">
+  <div class="ui container">
+    <h3>Přidat Nový</h3>
+    <% if(errMsg.length >= 1) {%>
+<div class="ui container">
+  <div class="ui negative message">
+    <i class="close icon"></i>
+    <div class="header">Chyba !</div>
+    <p><%- errMsg %></p>
+  </div>
+  <% } %>
+    <div class="ui form">
+      <form action="/person/add" method="POST">
+        <div class="field">
+          <label for=""> Přezdívka </label>
+          <input type="text" placeholder="nickname" name="nickname" />
+        </div>
+
+        <button class="ui green button">Přidat</button>
+      </form>
+    </div>
+  </div>
+</div>

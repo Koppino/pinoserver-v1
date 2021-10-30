@@ -11,6 +11,7 @@ router.get('/', ensureAuthenticated ,mainController.getDashboard);
 router.get('/login', forwardAuthenticated,authController.getLogin)
 router.post('/login', forwardAuthenticated,authController.doLogin)
 
+router.get('/logout', ensureAuthenticated, authController.doLogout)
 router.post('/register',forwardAuthenticated, authController.doRegister)
 router.get('/register', forwardAuthenticated,authController.getRegister)
 

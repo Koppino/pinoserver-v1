@@ -39,15 +39,18 @@ var myLogger = function (req, res, next) {
   console.log(
     new Date().toLocaleString("cs-EN").replace(" ", "").replace(" ", "")
   );
-  console.log(req.session);
+  console.log(req.hostname);
+  if (req.session.flash) {
+    console.log(req.session.flash.error[0])
+  }
   next()
 };
 
 
-app.use('/', require("./routes/index.js"))
-app.use('/people', require('./routes/people.js'))
-app.use('/acc', require('./routes/acc.js'))
-app.use('/posts', require('./routes/posts.js'))
+app.use('/', require("./routes/index"))
+app.use('/person', require('./routes/person'))
+app.use('/acc', require('./routes/acc'))
+app.use('/posts', require('./routes/posts'))
 
 app.use(myLogger);
 
