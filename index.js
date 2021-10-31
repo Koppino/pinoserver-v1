@@ -54,6 +54,6 @@ app.use('/posts', require('./routes/posts'))
 
 app.use(myLogger);
 
-app.listen(1380, () => {
+app.listen(80, () => {
   console.log("server is running.");
 });

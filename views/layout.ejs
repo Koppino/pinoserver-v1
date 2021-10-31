@@ -14,13 +14,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script
-      src="https://code.jquery.com/jquery-3.1.1.min.js"
-      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <script src="semantic/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="/public/css/style.css" />
     <title>PINO</title>
   </head>
   <body>
@@ -30,10 +24,18 @@
         <h4>koppino site</h4>
       </div>
       <ul class="nav-links">
-        <li><a href="/dashboard"><i class="chart bar icon"></i>PŘEHLED</a></li>
-        <li><a href="/posts/"><i class="file alternate icon"></i>ZÁZNAMY</a></li>
-        <li><a href="/person/"><i class="users icon"></i>LIDÉ</a></li>
-        <li><a href="/acc/"><i class="user icon"></i><%-user.username%></a></li>
+        <li>
+          <a href="/dashboard"><i class="chart bar icon"></i>PŘEHLED</a>
+        </li>
+        <li>
+          <a href="/posts/"><i class="file alternate icon"></i>ZÁZNAMY</a>
+        </li>
+        <li>
+          <a href="/person/"><i class="users icon"></i>LIDÉ</a>
+        </li>
+        <li>
+          <a href="/acc/"><i class="user icon"></i><%-user.username%></a>
+        </li>
       </ul>
       <div class="burger">
         <div class="line1"></div>
@@ -41,8 +43,13 @@
         <div class="line3"></div>
       </div>
     </nav>
-    <% } %>
-    <%- body %>
-    <script src="../public/js/app.js"></script>
+    <% } %> <%- body %>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+      integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/public/js/app.js"></script>
   </body>
 </html>

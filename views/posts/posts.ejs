@@ -1,0 +1,33 @@
+<%- include('subnav') %>
+
+<div class="ui segment">
+  <table id="peopleTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>datum</th>
+        <th>jméno</th>
+        <th>částka</th>
+        <th>zaplaceno</th>
+        <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% posts.forEach(post => { %>
+      <tr>
+        <td><%- post.zid %></td>
+        <td><%-post.createdAt.toISOString().replace("T", "  ").replace("Z", " ").substring(5,17)%></td>
+        <td><a href="/posts/get/<%-post._id%>"> <%- post.personName %> </a></td>
+        <td><%- post.castka %></td>
+        <td><%- post.zaplaceno %></td>
+        <td><% if (post.status == 0) { %>
+            <p style="color:red">NOT OK</p>
+            <% } else { %>
+                <p style="color:green">OK</p>
+                <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

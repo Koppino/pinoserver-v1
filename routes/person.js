@@ -6,7 +6,7 @@ const mainController = require('../controllers/MainController.js')
 const personController = require('../controllers/PeopleController')
 const {ensureAuthenticated, forwardAuthenticated} = require('../config/auth')
 
-router.get('/', ensureAuthenticated ,personController.getPeople);
+router.get('/', ensureAuthenticated ,personController.getPeopleSortedByName);
 
 router.get('/add', ensureAuthenticated, personController.getAddView)
 router.post('/add', ensureAuthenticated, personController.addPerson)

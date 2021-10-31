@@ -1,11 +1,11 @@
-<%- include('people/subnav') %>
+<%- include('subnav') %>
 <div class="ui segment">
     <table id="peopleTable">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Jméno</th>
             <th>bilance</th>
+            <th>jméno</th>
             <th>...</th>
           </tr>
         </thead>
@@ -14,10 +14,11 @@
             <tr>
                 <td> <%- person.personalId %> 
                 </td>
+                <td><%- person.bilance %>,- Kč</td>
                 <td><a href="/person/get/<%-person._id%>"> 
                          <%- person.name %> 
                     </a>  </td>
-                <td><%- person.bilance %></td>
+                
                 <td><i></i> <i></i> <i></i></td>
             </tr>
             <% }) %>

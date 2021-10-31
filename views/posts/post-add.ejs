@@ -1,0 +1,51 @@
+<%- include('subnav') %>
+
+<div class="ui segment">
+  <div class="ui container">
+    <form class="ui form" method="POST" action="/posts/add">
+      <h3 class="ui dividing header">Nový záznam</h3>
+      <div class="sixteen wide field">
+        <label>Člověk</label>
+        <select name="person" class="ui selection dropdown" style="background: white;">
+          <option value=""></option>
+          <% people.forEach(person => { %>
+          <option value="<%-person._id%>"><%- person.name %></option>
+          <%})%>
+        </select>
+      </div>
+      <div class="fields">
+        <div class="six wide field">
+          <label for="">Částka ,- Kč</label>
+          <input type="Number" name="castka" />
+        </div>
+        <div class="six wide field">
+          <label for="" id="status-select">Status</label>
+          <select name="status" class="ui selection dropdown" onchange="statusChanged(value)">
+            <option value="0"style="color:red;" selected>NOT OK</option>
+            <option value="1" style="color:green;">OK</option>
+          </select>
+        </div>
+        <div class="six wide field" id="zaplaceno">
+          <label>Zaplaceno ,- Kč</label>
+          <input type="number" name="zaplaceno" />
+        </div>
+      </div>
+      <div class="sixteen wide field">
+        <label>Komentář</label>
+        <textarea rows="2" name="comment"></textarea>
+      </div>
+     <input type="text" name="user"value="<%- user._id%>" hidden>
+      <button type="sender" class="ui button">Uložit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function statusChanged(value) {
+   if (value == 1) {
+     document.getElementById("zaplaceno").style.display = "none"
+   } else {
+    document.getElementById("zaplaceno").style.display = "block"
+   }
+  }
+  </script>

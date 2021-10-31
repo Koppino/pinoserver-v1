@@ -207,23 +207,47 @@ table {
   text-align: center;
   padding: 0;
 }
+#peopleTable th:nth-child(2) {
+  width: 100px;
+  text-align: center;
+  padding: 0;
+}
+#peopleTable td:nth-child(2) {
+  width: 50px;
+  text-align: center;
+  padding: 0;
+}
 #peopleTable th:nth-child(4) {
   width: 100px;
   text-align: center;
   padding: 0;
 }
-#peopleTable th:nth-child(3) {
+#peopleTable th:nth-child(4) {
   width: 100px;
   text-align: center;
   padding: 0;
 }
-#peopleTable td:nth-child(4) {
+#peopleTable td:nth-child(5) {
   width: 100px;
   align-items: center;
   padding: 0;
 }
-#peopleTable td:nth-child(3) {
+#peopleTable td:nth-child(5) {
   width: 100px;
   text-align: center;
   padding: 0;
+}
+#peopleTable th:nth-child(6) {
+  width: 100px;
+  text-align: center;
+  padding: 0;
+}
+#peopleTable td:nth-child(6) {
+  width: 100px;
+  align-items: center;
+  padding: 0;
+}
+
+h3 {
+  letter-spacing: 3px;
 }

@@ -3,11 +3,22 @@ const Person = require("../models/Person");
 const User = require("../models/User");
 
 module.exports.getPeople = (req, res) => {
-  Person.find({ user: req.user, isDeleted: false }, (err, people) => {
+  Person.find({ user: req.user},null, { sort: { name : 1 } }, (err, people) => {
     if (err) console.log(err);
-    res.render("people", { user: req.user, people: people });
+    console.log()
+    res.render("people/people", { user: req.user, people: people });
   });
 };
+
+module.exports.getPeopleSortedByName = (req,res) => {
+  Person.find({user:req.user}, null, {sort: {name: 1}}, (err, people) => {
+    if(err)console.log(err);
+
+    res.render('people/people', {user: req.user, people:people})
+
+  })
+}
+
 
 module.exports.getAddView = (req, res) => {
   res.render("people/person-add", { user: req.user, errMsg: [] });
@@ -28,7 +39,7 @@ module.exports.addPerson = (req, res) => {
         await Person.find(
           {},
           null,
-          { sorted: { _id: -1 } },
+          { sort: { _id: 1 } },
           (err, lastPerson) => {
             if (err) console.log(err);
             let newId = 0;
