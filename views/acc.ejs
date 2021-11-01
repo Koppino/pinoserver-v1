@@ -1,9 +1,57 @@
 <div class="ui segment">
+  <div class="ui container">
     <h3>ÚČET</h3>
-    <div class="ui container">
-        <h3>ÚČET</h3>
-       <center> <img class="ui medium bordered image" src="/images/wireframe/white-image.png"></center>
-    </div>
+    <% posts.forEach(post => {%> <%})%>
+    <center>
+      <h4><%- user.username%></h4>
+      <img class="ui medium bordered image" src="/public/images/user.png" />
 
+      <div class="ui statistics">
+        <div class="statistic">
+          <div class="value">22</div>
+          <div class="label">zaznamy</div>
+        </div>
 
+        <div class="statistic">
+          <div class="value">22</div>
+          <div class="label">Lidi</div>
+        </div>
+
+        <div class="statistic">
+          <div class="value" id="castkaCelkem">31,200</div>
+          <div class="label">Castka celkem</div>
+        </div>
+
+        <div class="statistic">
+          <div class="value" id="zaplacenoCelkem">31,200</div>
+          <div class="label">Zaplaceno celkem</div>
+        </div>
+      </div>
+    </center>
+    <div class="ui divider"></div>
+    <button onclick="window.location.href = '/logout' " class="ui button" style="margin:2em;">
+      Odhlásit
+    </button>
+  </div>
 </div>
+
+<script>
+  let castka = 0;
+    <% posts.forEach(post => { %>
+      castka = castka + parseFloat(<%- post.castka%>);
+      console.log("CASTKA: " + castka);
+  <% }) %>
+
+  let zaplaceno = 0;
+  <% posts.forEach(post => { %>
+    <% if(post.status == 1) { %>
+        zaplaceno = zaplaceno + parseFloat(<%- post.castka%>)
+        <% } else { %>
+            zaplaceno = zaplaceno + parseFloat(<%- post.zaplaceno%>)
+            <% }%>
+            console.log("Zaplaceno :" + zaplaceno);
+    <% })%>
+
+    document.getElementById("castkaCelkem").innerHTML = castka + ",-";
+    document.getElementById("zaplacenoCelkem").innerHTML = zaplaceno + ",-";
+</script>

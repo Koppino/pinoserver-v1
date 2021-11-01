@@ -1,6 +1,7 @@
 const { ensureAuthenticated } = require("../config/auth");
 const Person = require("../models/Person");
 const User = require("../models/User");
+const Zaznam = require("../models/Zaznam");
 
 module.exports.getPeople = (req, res) => {
   Person.find({ user: req.user},null, { sort: { name : 1 } }, (err, people) => {
@@ -75,8 +76,10 @@ module.exports.getPersonById = (req, res) => {
 
   Person.findOne({ _id: _id }, (err, person) => {
     if (err) console.log(err);
-    console.log(person);
-
-    res.render("people/person", { user: req.user, person: person });
+    Zaznam.find({person:person._id}, null, {sort: { createdAt : -1}}, (err, personPosts) => {
+      if(err)console.log(err);
+      res.render("people/person", { user: req.user, person: person, personPosts: personPosts });
+    })
+    
   });
 };

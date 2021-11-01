@@ -1,7 +1,34 @@
 <%- include('subnav') %>
 </div>
 <div class="ui segment">
-  <div class="ui container">
     <h3><%- person.name %></h3>
-  </div>
+<table id="peopleTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>status</th>
+      <th>jméno</th>
+      <th>castka / zaplaceno</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% personPosts.forEach(post => { %>
+      <tr>
+          <td> <%- post.zid %> 
+          </td>
+          <%if (post.status == 0) {%>
+          <td style="color: red;"> NOT OK</td>
+            <%} else {%>
+              <td style="color:green">OK</td>
+              <% } %>
+          <td><a href="/posts/get/<%-post._id%>"> 
+            <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(12,17)%> <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(7,10)%>.
+            <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(5,7)%>.
+              </a>  </td>
+          
+          <td> <b><%- post.castka %></b>,- / <%-post.zaplaceno%> ,-</td>
+      </tr>
+      <% }) %>
+  </tbody>
+</table>
 </div>
