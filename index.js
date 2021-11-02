@@ -10,7 +10,7 @@ const app = express();
 const path = require("path");
 const flash = require("connect-flash");
 
-require('./config/passport')(passport);
+require("./config/passport")(passport);
 db = mongoURI;
 mongoose
   .connect(db, {
@@ -27,10 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(flash());
 
-
-app.use(
-  session({ secret: "secret", resave: false, saveUninitialized: false })
-);
+app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,19 +38,18 @@ var myLogger = function (req, res, next) {
   );
   console.log(req.hostname);
   if (req.session.flash) {
-    console.log(req.session.flash.error[0])
+    console.log(req.session.flash.error[0]);
   }
-  next()
+  next();
 };
 
-
-app.use('/', require("./routes/index"))
-app.use('/person', require('./routes/person'))
-app.use('/acc', require('./routes/acc'))
-app.use('/posts', require('./routes/posts'))
+app.use("/", require("./routes/index"));
+app.use("/person", require("./routes/person"));
+app.use("/acc", require("./routes/acc"));
+app.use("/posts", require("./routes/posts"));
 
 app.use(myLogger);
 
-app.listen(80, () => {
+app.listen(1880, () => {
   console.log("server is running.");
 });

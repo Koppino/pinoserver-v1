@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kufam:wght@500;700&family=Oswald:wght@300;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-      integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="/public/css/style.css" />
-    <title>PINO</title>
-  </head>
-  <body>
-    <% if(user) { %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@500;700&family=Oswald:wght@300;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/reset.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/site.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/grid.css">
+
+  <!--- Component CSS -->
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/icon.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/button.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/card.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/label.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/image.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/reveal.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/dimmer.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/rating.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/transition.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/popup.css">
+  <link rel="stylesheet" type="text/css" href="/public/semantic/dist/semantic.min.css" <!--- Component JS -->
+  <script src="../assets/library/jquery.min.js"></script>
+  <script src="../assets/library/iframe-content.js"></script>
+  <script type="text/javascript" src="/public/semantic/dist/components/popup.js"></script>
+  <script type="text/javascript" src="/public/semantic/dist/components/dimmer.js"></script>
+  <script type="text/javascript" src="/public/semantic/dist/components/rating.js"></script>
+  <script type="text/javascript" src="/public/semantic/dist/components/transition.js"></script>
+  <script type="text/javascript" src="/public/semantic/dist/semantic.min.js"></script>
+
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <title>PINO</title>
+</head>
+
+<body>
+  <% if(user) { %>
     <nav>
       <div class="logo">
         <h4>koppino site</h4>
@@ -34,7 +52,9 @@
           <a href="/person/"><i class="users icon"></i>LIDÉ</a>
         </li>
         <li>
-          <a href="/acc/"><i class="user icon"></i><%-user.username%></a>
+          <a href="/acc/"><i class="user icon"></i>
+            <%-user.username%>
+          </a>
         </li>
       </ul>
       <div class="burger">
@@ -43,13 +63,10 @@
         <div class="line3"></div>
       </div>
     </nav>
-    <% } %> <%- body %>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
-      integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="/public/js/app.js"></script>
-  </body>
+    <% } %>
+      <%- body %>
+
+        <script src="/public/js/app.js"></script>
+</body>
+
 </html>
