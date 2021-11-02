@@ -6,8 +6,8 @@ const bcrypt = require('bcryptjs')
 
 module.exports.doLogin = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
     failureFlash: true,
   })(req, res, next);
 };
@@ -26,10 +26,10 @@ module.exports.getRegister = (req, res) => {
 };
 
 module.exports.doRegister = async (req, res) => {
-  const { name, password, password2 } = req.body;
+  const { username, password, password2 } = req.body;
   let errors = [];
 
-  if (!name || !password || !password2) {
+  if (!username || !password || !password2) {
     errors.push({ msg: "Please enter all fields" });
   }
 
@@ -37,39 +37,35 @@ module.exports.doRegister = async (req, res) => {
     errors.push({ msg: "Passwords do not match" });
   }
 
-  if (password.length < 4) {
+  if (password.length <= 4) {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
 
   if (errors.length > 0) {
-    res.render("auth/register", {
+    res.render("auth/register", {user:req.user,
       errors,
-      name,
+      username,
       password,
       password2,
     });
   } else {
-    User.findOne({ name: name }).then((user) => {
+    User.findOne({ username: username }).then((user) => {
       if (user) {
         errors.push({ msg: "Username already exists" });
         res.render("auth/register", {
           errors,
-          name,
+          username,
           password,
           password2,
           user: req.user,
         });
       } else {
-        User.findOne(
-          {},
-          null,
-          { sort: { createdAt: -1 } },
-          async function (err, data) {
+        User.findOne({}, null, { sort: { createdAt: -1 } }, async(err, data) => {
             if (err) {
               console.log(err);
             } else {
               const newUser = new User({
-                username: name,
+                username: username,
                 password: password,
                 createdAt: Date.now(),
               });

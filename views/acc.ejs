@@ -4,7 +4,7 @@
     <% posts.forEach(post => {%> <%})%>
     <center>
       <h4><%- user.username%></h4>
-      <img class="ui medium bordered image" src="/public/images/user.png" />
+      <img class="ui small bordered image" src="/public/images/user.png" />
 
       <div class="ui statistics">
         <div class="statistic">
@@ -18,14 +18,20 @@
         </div>
 
         <div class="statistic">
-          <div class="value" id="castkaCelkem">0</div>
+          <div class="value" id="castkaCelkem" ">0</div>
           <div class="label">Castka celkem</div>
         </div>
 
         <div class="statistic">
-          <div class="value" id="zaplacenoCelkem">0</div>
+          <div class="value" id="zaplacenoCelkem" style="color:green;">0</div>
           <div class="label">Zaplaceno celkem</div>
         </div>
+
+        <div class="statistic">
+            <div class="value" id="nezaplacenoCelkem" style="color:red;">0</div>
+            <div class="label">Nezaplaceno celkem</div>
+          </div>
+
       </div>
     </center>
     <div class="ui divider"></div>
@@ -51,9 +57,11 @@
             <% }%>
             console.log("Zaplaceno :" + zaplaceno);
     <% })%>
+        let nezaplaceno = castka - zaplaceno;
 
     document.getElementById("castkaCelkem").innerHTML = castka + ",-";
     document.getElementById("zaplacenoCelkem").innerHTML = zaplaceno + ",-";
     document.getElementById("postsCelkem").innerHTML = <%- posts.length %> ;
     document.getElementById("lidiCelkem").innerHTML = <%- people.length %> ;
+    document.getElementById("nezaplacenoCelkem").innerHTML = nezaplaceno + ",-"
 </script>

@@ -10,7 +10,7 @@ const app = express();
 const path = require("path");
 const flash = require("connect-flash");
 
-require("./config/passport")(passport);
+require('./config/passport')(passport);
 db = mongoURI;
 mongoose
   .connect(db, {
