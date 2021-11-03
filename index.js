@@ -47,9 +47,10 @@ app.use("/", require("./routes/index"));
 app.use("/person", require("./routes/person"));
 app.use("/acc", require("./routes/acc"));
 app.use("/posts", require("./routes/posts"));
+app.use("/api/ios/", require("./routes/apios"));
 
 app.use(myLogger);
 
-app.listen(1880, () => {
+app.listen(80, () => {
   console.log("server is running.");
 });
