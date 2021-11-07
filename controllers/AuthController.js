@@ -18,7 +18,7 @@ module.exports.doLogout = (req, res) => {
 };
 
 module.exports.getLogin = (req, res) => {
-  res.render("auth/login", { user: req.user });
+  res.render("auth/login", { user: req.user, messsage: req.flash('danger')});
 };
 
 module.exports.getRegister = (req, res) => {
@@ -31,14 +31,17 @@ module.exports.doRegister = async (req, res) => {
 
   if (!username || !password || !password2) {
     errors.push({ msg: "Please enter all fields" });
+    req.flash('danger', 'Vyplntě všechna pole.')
   }
 
   if (password != password2) {
+    req.flash('danger', 'Hesla se neshodují')
     errors.push({ msg: "Passwords do not match" });
   }
 
   if (password.length <= 4) {
-    errors.push({ msg: "Password must be at least 6 characters" });
+    req.flash('danger', 'Heslo musí být delší než 4 znaky')
+    errors.push({ msg: "Password must be at least 4 characters" });
   }
 
   if (errors.length > 0) {
@@ -47,17 +50,20 @@ module.exports.doRegister = async (req, res) => {
       username,
       password,
       password2,
+      message: req.flash('danger')
     });
   } else {
     User.findOne({ username: username }).then((user) => {
       if (user) {
         errors.push({ msg: "Username already exists" });
+        req.flash('danger', 'Uživatel již existuje.')
         res.render("auth/register", {
           errors,
           username,
           password,
           password2,
           user: req.user,
+          message: req.flash('danger')
         });
       } else {
         User.findOne({}, null, { sort: { createdAt: -1 } }, async(err, data) => {
@@ -68,7 +74,13 @@ module.exports.doRegister = async (req, res) => {
                 username: username,
                 password: password,
                 createdAt: Date.now(),
+                admin:true
               });
+
+              if(req.user) {
+                newUser.createdBy = req.user
+                console.log("created by : " + req.user.username )
+              }
 
               bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -79,7 +91,7 @@ module.exports.doRegister = async (req, res) => {
                     .then((user) => {
                       res.render("auth/login", {
                         user: req.user,
-                        message: req.flash("info"),
+                        message: req.flash('danger')
                       });
                     })
                     .catch((err) => console.log(err));
@@ -89,6 +101,6 @@ module.exports.doRegister = async (req, res) => {
           }
         );
       }
-    });
+    })
   }
 };

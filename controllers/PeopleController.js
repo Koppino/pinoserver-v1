@@ -1,8 +1,9 @@
-const { ensureAuthenticated } = require("../config/auth");
-const Person = require("../models/Person");
-const User = require("../models/User");
-const Zaznam = require("../models/Zaznam");
-
+const { ensureAuthenticated } = require('../config/auth');
+const Person = require('../models/Person');
+const User = require('../models/User');
+const Zaznam = require('../models/Zaznam');
+const bcrypt = require('bcryptjs')
+const authController = require('../controllers/AuthController.js')
 module.exports.getPeople = (req, res) => {
   Person.find({ user: req.user},null, { sort: { name : 1 } }, (err, people) => {
     if (err) console.log(err);
@@ -57,7 +58,49 @@ module.exports.addPerson = (req, res) => {
 
             newPerson.save((err) => {
               if (err) console.log(err);
-              res.redirect("/person");
+
+              User.findOne({ username: newPerson.name }).then((user) => {
+                if (user && user.createdBy == UID) {
+                  errors.push({ msg: "Username already exists in your people list." });
+                  res.redirect('/person');
+                } else {
+                  User.findOne({}, null, { sort: { createdAt: -1 } }, async(err, data) => {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        const newUser = new User({
+                          username: newPerson.name,
+                          password: newPerson.name+"1",
+                          createdAt: Date.now(),
+                        });
+          
+                        if(req.user) {
+                          newUser.createdBy = req.user
+                          console.log("created by : " + req.user.username )
+                        }
+          
+                        bcrypt.genSalt(10, (err, salt) => {
+                          bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            newUser
+                              .save()
+                              .then((user) => {
+                                newPerson.account = newUser._id
+                                newPerson.save().then((person) => {
+                                  console.log(person)  
+                                  res.redirect('/person');
+                                })
+                              
+                              })
+                              .catch((err) => console.log(err));
+                          });
+                        });
+                      }
+                    }
+                  );
+                }
+              });
             });
           }
         );

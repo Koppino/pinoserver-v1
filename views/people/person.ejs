@@ -30,7 +30,7 @@
         <tr>
         <th>ID</th>
         <th>status</th>
-        <th>jméno</th>
+        <th>datum</th>
         <th>castka / zaplaceno</th>
       </tr>
     </thead>
@@ -46,8 +46,7 @@
               <% } %>
           <td>
             <a href="/posts/get/<%-post._id%>"> 
-            <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(12,17)%> <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(7,10)%>.
-            <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(5,7)%>.
+            <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(11,16)%> <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(8,10)%>.<%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(5,7)%>.
               </a>
             </td>
           <td> 

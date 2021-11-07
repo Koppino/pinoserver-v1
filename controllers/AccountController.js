@@ -11,3 +11,12 @@ module.exports.getAccountView = (req, res) => {
         })
     })
 };
+
+
+module.exports.getChangePaswword = (req, res) => {
+    res.render('acc/change-password', {user:req.user})
+}
+
+module.exports.doChangePaswword = (req, res) => {
+
+}

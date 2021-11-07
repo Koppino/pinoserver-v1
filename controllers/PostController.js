@@ -1,3 +1,4 @@
+const Komentar = require("../models/Komentar");
 const Person = require("../models/Person");
 const Zaznam = require("../models/Zaznam");
 
@@ -72,45 +73,91 @@ module.exports.getPostById = (req, res) => {
 
   Zaznam.findOne({ _id: _id }, (err, zaznam) => {
     if (err) console.log(err);
-
-    res.render("posts/post", { user: req.user, post: zaznam });
+    Komentar.find(
+      { postId: zaznam.zid },
+      null,
+      { sort: { createdAt: -1 } },
+      (err, komentare) => {
+        if (err) console.log(err);
+        res.render("posts/post", {
+          user: req.user,
+          post: zaznam,
+          komentare: komentare,
+        });
+      }
+    );
   });
 };
 
 module.exports.updatePostById = (req, res) => {
-  console.log(req.body);
-  const zaplacenoOld = req.body.zaplaceno;
-  const zaplacenoNew = req.body.zaplacenonew;
-  const person = req.body.person;
-  const _id = req.body._id;
-  const castka = req.body.castka
-  const rozdil = zaplacenoNew - zaplacenoOld;
+  if (req.user.admin == true) {
+    console.log(req.body);
+    const zaplacenoOld = req.body.zaplaceno;
+    const zaplacenoNew = req.body.zaplacenonew;
+    const person = req.body.person;
+    const _id = req.body._id;
+    const castka = req.body.castka;
+    const rozdil = zaplacenoNew - zaplacenoOld;
     const rozdil2 = zaplacenoOld - castka;
-  console.log(rozdil);
-  Person.findOne({ _id: person }, async (err, person) => {
-    if (err) console.log(err);
-    if(req.body.status == 1) {
-        person.bilance = person.bilance - rozdil2
-    }else {
-    person.bilance = person.bilance + rozdil
-    }
-    await person.save((err) => {
+    console.log(rozdil);
+    Person.findOne({ _id: person }, async (err, person) => {
       if (err) console.log(err);
-
-      Zaznam.findOne({ _id: _id }, (err, zaznam) => {
+      if (req.body.status == 1) {
+        person.bilance = person.bilance - rozdil2;
+      } else {
+        person.bilance = person.bilance + rozdil;
+      }
+      await person.save((err) => {
         if (err) console.log(err);
-        zaznam.comment = req.body.comment;
-        if (req.body.status == 1) {
-          zaznam.zaplaceno = req.body.castka;
-        } else {
-          zaznam.zaplaceno = zaplacenoNew;
-        }
-        zaznam.status = req.body.status;
-        zaznam.save((err) => {
+
+        Zaznam.findOne({ _id: _id }, (err, zaznam) => {
           if (err) console.log(err);
-          res.redirect("/posts");
+          zaznam.comment = req.body.comment;
+          if (req.body.status == 1) {
+            zaznam.zaplaceno = req.body.castka;
+          } else {
+            zaznam.zaplaceno = zaplacenoNew;
+          }
+          zaznam.status = req.body.status;
+          zaznam.save((err) => {
+            if (err) console.log(err);
+            res.redirect("/posts");
+          });
         });
       });
     });
-  });
+  } else {
+    req.flash("danger", "Nemáš oprávnění.");
+    res.redirect("/");
+  }
+};
+
+module.exports.addComment = (req, res) => {
+  const zid = req.params.zid;
+  const username = req.body.username;
+  const user = req.body.user;
+  const msg = req.body.msg;
+  let newKid = 1
+  Komentar.find({}, null, {sort:{ createdAt: -1}}, (err, komentare) => {
+    if(err) console.log(err);
+    if(komentare.length >= 1) {
+      newKid = komentare[0].kid + 1
+    }
+
+    const newComment = new Komentar({
+      user: user,
+      userName: username,
+      message: msg,
+      createdAt: Date.now(),
+      likes: 0,
+      kid: newKid,
+      postId: zid
+    })
+
+    newComment.save((err)=> {
+      if(err) console.log(err);
+      console.log('komment save.')
+      res.redirect('/');
+    })
+  })
 };

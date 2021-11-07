@@ -12,4 +12,7 @@ router.post('/add', ensureAuthenticated, postController.addPost)
 
 router.get('/get/:_id', ensureAuthenticated, postController.getPostById)
 router.post('/update/:_id', ensureAuthenticated, postController.updatePostById)
+
+router.post('/add-comment/:zid', ensureAuthenticated, postController.addComment)
+
 module.exports = router

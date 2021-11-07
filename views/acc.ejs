@@ -5,7 +5,7 @@
     <center>
       <h4><%- user.username%></h4>
       <img class="ui small bordered image" src="/public/images/user.png" />
-
+      <%if(user.admin) { %>
       <div class="ui statistics">
         <div class="statistic">
           <div class="value" id="postsCelkem">0</div>
@@ -33,6 +33,7 @@
           </div>
 
       </div>
+      <% } %>
     </center>
     <div class="ui divider"></div>
     <button onclick="window.location.href = '/logout' " class="ui button" style="margin:2em;">

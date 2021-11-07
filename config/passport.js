@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
+const flash = require('connect-flash')
 
 // Load User model
 const User = require('../models/User');
@@ -12,7 +13,7 @@ module.exports = function(passport) {
                 username: username
             }).then(user => {
                 if (!user) {
-                    return done(null, false, { message: 'That name is not registered' });
+                    return done(null, false);
                 }
 
                 // Match password
@@ -21,9 +22,10 @@ module.exports = function(passport) {
                     if (isMatch) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Password incorrect' });
+                        flash('info', 'špatně zadané heslo.')
+                        return done(null, false);
                     }
-                });
+                })
             });
         })
     );

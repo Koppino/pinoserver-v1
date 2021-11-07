@@ -1,6 +1,99 @@
-<div class="container-sm">
-  <h1><%-user.username%></h1>
-  <% users.forEach(user => { %>
-  <div><%-user.username%> - <%- user._id%></div>
-  <% }) %>
+
+<div class="ui segment container">
+  <%if(message.length >= 1) {%>
+  <div class="ui red message">
+    <i class="close icon"></i>
+    <div class="header">
+      <%- message %>
+    </div>
+  </div>
+<% } %>
+   <h1><%-user.username%> - <%-user._id%> </h1>
+   <% if (user.admin == false) {%>
+    <div class="ui statistics">
+      <div class="statistic">
+        <div class="value" id="postsCelkem">0</div>
+        <div class="label">zaznamy</div>
+      </div>
+
+      <div class="statistic">
+        <div class="value" id="castkaCelkem" ">0</div>
+        <div class="label">Castka celkem</div>
+      </div>
+
+      <div class="statistic">
+        <div class="value" id="zaplacenoCelkem" style="color:green;">0</div>
+        <div class="label">Zaplaceno celkem</div>
+      </div>
+
+      <div class="statistic">
+          <div class="value" id="nezaplacenoCelkem" style="color:red;">0</div>
+          <div class="label">Nezaplaceno celkem</div>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+   <table id="peopleTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>status</th>
+        <th>datum</th>
+        <th>částka</th>
+        <th>zaplaceno</th>
+        <th>...</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% posts.forEach(post => { %>
+        <tr>
+          <td>
+            <%- post.zid %>
+          </td>
+            <td> <% if(post.status == 1) {%>
+             <p style="color: green;">OK</p>
+              <%}else {%>
+                <p style="color: red;">NOT OK</p>
+                <%}%>
+            </td>
+            <td><a href="/posts/get/<%-post._id%>"> 
+              <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(11,16)%> <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(8,10)%>.<%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(5,7)%>.
+                </a> </td>
+            <td>
+              <%- post.castka%> 
+            </td>
+            <td>
+              <%- post.zaplaceno %> 
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        <% }) %>
+    </tbody>
+  </table>
+  <%}%>
 </div>
+
+<script>
+  let castka = 0;
+    <% posts.forEach(post => { %>
+      castka = castka + parseFloat(<%- post.castka%>);
+      console.log("CASTKA: " + castka);
+  <% }) %>
+
+  let zaplaceno = 0;
+  <% posts.forEach(post => { %>
+    <% if(post.status == 1) { %>
+        zaplaceno = zaplaceno + parseFloat(<%- post.castka%>)
+        <% } else { %>
+            zaplaceno = zaplaceno + parseFloat(<%- post.zaplaceno%>)
+            <% }%>
+            console.log("Zaplaceno :" + zaplaceno);
+    <% })%>
+        let nezaplaceno = castka - zaplaceno;
+
+    document.getElementById("castkaCelkem").innerHTML = castka + ",-";
+    document.getElementById("zaplacenoCelkem").innerHTML = zaplaceno + ",-";
+    document.getElementById("postsCelkem").innerHTML = <%- posts.length %> ;
+    document.getElementById("nezaplacenoCelkem").innerHTML = nezaplaceno + ",-"
+</script>

@@ -1,3 +1,4 @@
+const { request } = require('express');
 const mongoose = require('mongoose')
 
 const PersonSchema = new mongoose.Schema({
@@ -25,6 +26,12 @@ const PersonSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
         default: false
+    },
+    account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: request.user,
+        required:false
     }
 })
 

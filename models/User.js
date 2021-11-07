@@ -1,3 +1,4 @@
+const { request } = require('express');
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
@@ -23,6 +24,12 @@ const UserSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
         default: false
+    },
+    createdBy: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        default: request.user,
+        required:false
     }
 })
 

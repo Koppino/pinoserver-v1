@@ -1,63 +1,107 @@
+<% if(user.admin == true) { %>
 <%- include('subnav') %>
+<%}%>
 <div class="ui segment">
-  <div class="ui container">
-    <div class="ui segment">
-      <h4>
-        <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(12,17)%> <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(7,10)%>.
-        <%-post.createdAt.toISOString().replace("T", " ").replace("Z", " ").substring(5,7)%>.
-      </h4>
-      <form action="/posts/update/<%-post._id%>" method="POST" class="ui form">
-        <div class="sixteen wide field">
-          <label>Člověk</label>
-          <select name="person" class="ui selection dropdown" style="background: white" disabled>
-            <option value="<%-post.person%>"><%- post.personName %></option>
-          </select>
-        </div>
-        <div class="fields">
-          <div class="six wide field">
-            <label for="">Částka ,- Kč</label>
-            <input type="Number" name="castka" value="<%- post.castka %>" disabled />
+    <div class="ui container">
+      <div class="ui segment">
+        <h3 class="ui dividing header">
+          <%-post.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(11,16)%>
+            <%-post.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(8,10)%>.
+              <%-post.createdAt.toISOString().replace("T", "" ).replace("Z", "" ).substring(5,7)%>.
+        </h3>
+        <form action="/posts/update/<%-post._id%>" method="POST" class="ui form">
+          <div class="sixteen wide field">
+            <label>Člověk</label>
+            <select name="person" class="ui selection dropdown" style="background: white" disabled>
+              <option value="<%-post.person%>">
+                <%- post.personName %>
+              </option>
+            </select>
           </div>
-          <div class="six wide field">
-            <label for="" id="status-select">Status</label>
-           <select name="status" class="ui selection dropdown" onchange="statusChanged(value)">
-            <% if(post.status == 0) { %>
-                <option value="0" style="color: red" selected>NOT OK</option>
-                <option value="1" style="color: green">OK</option>
-                <% } %> <% if(post.status == 1) { %>
-                <option value="0" style="color: red" disabled>NOT OK</option>
-                <option value="1" style="color: green" selected>OK</option>
-                <% } %>
-           </select>
+          <div class="fields">
+            <div class="six wide field">
+              <label for="">Částka ,- Kč</label>
+              <input type="Number" name="castka" value="<%- post.castka %>" disabled />
+            </div>
+            <div class="six wide field">
+              <label for="" id="status-select">Status</label>
+              <select name="status" class="ui selection dropdown" onchange="statusChanged(value)">
+                <% if(post.status==0) { %>
+                  <option value="0" style="color: red" selected>NOT OK</option>
+                  <option value="1" style="color: green">OK</option>
+                  <% } %>
+                    <% if(post.status==1) { %>
+                      <option value="0" style="color: red" disabled>NOT OK</option>
+                      <option value="1" style="color: green" selected>OK</option>
+                      <% } %>
+              </select>
+            </div>
+            <div class="six wide field" id="zaplaceno">
+              <label>Zaplaceno ,- Kč</label>
+              <input type="number" name="zaplacenonew" id="zaplacenonew" value="<%- post.zaplaceno%>" />
+            </div>
           </div>
-          <div class="six wide field" id="zaplaceno">
-            <label>Zaplaceno ,- Kč</label>
-            <input type="number" name="zaplacenonew" id="zaplacenonew" value="<%- post.zaplaceno%>"/>
+          <div class="sixteen wide field">
+            <label>Poznámka</label>
+            <textarea rows="2" name="comment"></textarea>
           </div>
-        </div>
-        <div class="sixteen wide field">
-          <label>Komentář</label>
-          <textarea rows="2" name="comment"></textarea>
-        </div>
-        <input type="text" name="zaplaceno" value="<%- post.zaplaceno%>" hidden />
-        <input type="Number" name="castka" value="<%- post.castka %>" hidden />
-        <input type="text" name="_id" value="<%- post._id%>" hidden />
-        <input type="text" name="person" value="<%- post.person%>" hidden />
-        <button type="sender" class="ui button">Uložit</button>
-      </form>
+          <input type="text" name="zaplaceno" value="<%- post.zaplaceno%>" hidden />
+          <input type="Number" name="castka" value="<%- post.castka %>" hidden />
+          <input type="text" name="_id" value="<%- post._id%>" hidden />
+          <input type="text" name="person" value="<%- post.person%>" hidden />
+          <button type="sender" class="ui button">Uložit</button>
+        </form>
+      </div>
+      <div class="ui segment">
+        <h3 class="ui dividing header">Komentáře</h3>
+        <div class="ui comments">
+          <% komentare.forEach(komentar => { %>
+          <div class="comment">
+            <a class="avatar">
+              <img src="/images/avatar/small/christian.jpg">
+            </a>
+            <div class="content">
+              <a class="author"> <%- komentar.userName %> </a>
+              <div class="metadata">
+                <span class="date">
+                  <%-komentar.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(8,10)%>.
+                    <%-komentar.createdAt.toISOString().replace("T", "" ).replace("Z", "" ).substring(5,7)%>. , <%-komentar.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(11,16)%>
+                  </span>
+              </div>
+              <div class="text">
+               <%- komentar.message %>
+              </div>
+              <div class="actions">
+           <a class="reply">Reply</a>
+              </div>
+            </div>
+            <% }) %>
+            </div>
+        <form method="post" action="/posts/add-comment/<%-post.zid%>/" class="ui reply form">
+          <div class="field">
+            <textarea name="msg"></textarea>
+          </div>
+          <input type="text" name="user" value="<%-user._id%>" hidden>
+          <input type="text" name="username" value="<%-user.username%>" hidden>
+          <button type="sender" class="ui labeled submit icon button">
+              <i class="icon edit"></i> Přidat
+          </button>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-    
+  <script>
+
     function statusChanged(value) {
-     if (value == 1) {
-       document.getElementById("zaplaceno").style.display = "none";
-     } else {
-      document.getElementById("zaplaceno").style.display = "block";
-     };
+      if (value == 1) {
+        document.getElementById("zaplaceno").style.display = "none";
+      } else {
+        document.getElementById("zaplaceno").style.display = "block";
+      };
     };
-    
-    statusChanged(<%- post.status %>)
-    </script>
+    function isAdmin() {
+      if (user.admin =)
+    }
+    statusChanged(<% - post.status %>)
+  </script>
