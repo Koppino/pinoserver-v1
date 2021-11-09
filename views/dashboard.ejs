@@ -94,6 +94,14 @@
 
     document.getElementById("castkaCelkem").innerHTML = castka + ",-";
     document.getElementById("zaplacenoCelkem").innerHTML = zaplaceno + ",-";
-    document.getElementById("postsCelkem").innerHTML = <%- posts.length %> ;
-    document.getElementById("nezaplacenoCelkem").innerHTML = nezaplaceno + ",-"
+    document.getElementById("postsCelkem").innerHTML = <%= posts.length %> ;
+    document.getElementById("nezaplacenoCelkem").innerHTML = nezaplaceno + ",-";
+</script>
+
+
+<script>
+  function postsTydenZpett() {
+     console.log(<%=postsTydenZpet.length%>);
+  }
+  postsTydenZpett()
 </script>
