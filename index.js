@@ -31,7 +31,7 @@ app.use(flash());
 app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 
 app.use(cookieParser('keyboard cat'));
 app.use(session({ key: 'sid', cookie: { maxAge: 60000 }}));
@@ -47,6 +47,7 @@ var myLogger = function (req, res, next) {
 };
 
 app.use("/", require("./routes/index"));
+app.use('/chat', require("./routes/chat"))
 app.use("/person", require("./routes/person"));
 app.use("/acc", require("./routes/acc"));
 app.use("/posts", require("./routes/posts"));
@@ -54,6 +55,6 @@ app.use("/api/ios/", require("./routes/apios"));
 
 app.use(myLogger);
 
-app.listen(1337, () => {
+app.listen('1337', () => {
   console.log("server is running.");
 });

@@ -156,8 +156,12 @@ module.exports.addComment = (req, res) => {
 
     newComment.save((err)=> {
       if(err) console.log(err);
-      console.log('komment save.')
-      res.redirect('/');
+      Zaznam.findOne({zid:newComment.postId}, (err, zaznam) => {
+        if(err) throw(err);
+        console.log('komment save.')
+      res.redirect(`/posts/get/${zaznam._id}`);
+      })
+      
     })
   })
 };

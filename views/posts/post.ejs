@@ -35,15 +35,17 @@
                       <option value="1" style="color: green" selected>OK</option>
                       <% } %>
               </select>
-            </div>
+            </div> 
+            <% if(post.status==0) { %>
             <div class="six wide field" id="zaplaceno">
               <label>Zaplaceno ,- Kč</label>
               <input type="number" name="zaplacenonew" id="zaplacenonew" value="<%- post.zaplaceno%>" />
             </div>
+            <% } %>
           </div>
           <div class="sixteen wide field">
             <label>Poznámka</label>
-            <textarea rows="2" name="comment"></textarea>
+            <textarea rows="2" name="comment"><%-post.comment%></textarea>
           </div>
           <input type="text" name="zaplaceno" value="<%- post.zaplaceno%>" hidden />
           <input type="Number" name="castka" value="<%- post.castka %>" hidden />
@@ -83,7 +85,7 @@
           </div>
           <input type="text" name="user" value="<%-user._id%>" hidden>
           <input type="text" name="username" value="<%-user.username%>" hidden>
-          <button type="sender" class="ui labeled submit icon button">
+          <button type="sender" class="ui green labeled submit icon button">
               <i class="icon edit"></i> Přidat
           </button>
         </form>
@@ -92,7 +94,7 @@
   </div>
 
   <script>
-
+document.getElementById("zaplaceno").style.display = "none";
     function statusChanged(value) {
       if (value == 1) {
         document.getElementById("zaplaceno").style.display = "none";

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@500;700&family=Oswald:wght@300;700&display=swap"
     rel="stylesheet" />
 
@@ -23,8 +23,7 @@
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/transition.css">
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/popup.css">
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/semantic.min.css" <!--- Component JS -->
-  <script src="../assets/library/jquery.min.js"></script>
-  <script src="../assets/library/iframe-content.js"></script>
+  <script src="/public/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/public/semantic/dist/components/popup.js"></script>
   <script type="text/javascript" src="/public/semantic/dist/components/dimmer.js"></script>
   <script type="text/javascript" src="/public/semantic/dist/components/rating.js"></script>
@@ -46,20 +45,26 @@
         <li>
           <a href="/dashboard"><i class="chart bar icon"></i>PŘEHLED</a>
         </li>
+        <li>
+          <a href="/chat/"><i class="comments icon"></i>ZPRÁVY</a>
+        </li>
         <%if (user.admin) {%>
           <li>
             <a href="/posts/"><i class="file alternate icon"></i>ZÁZNAMY</a>
           </li>
           <li>
             <a href="/person/"><i class="users icon"></i>LIDÉ</a>
-          </li><% }%>
-          <li> 
-            
-            <a href="/acc/"><i class="user icon"></i>
-              <%-user.username%>
-            </a>
           </li>
-         
+          <% }%>
+
+
+            <li>
+
+              <a href="/acc/"><i class="user icon"></i>
+                <%-user.username%>
+              </a>
+            </li>
+
       </ul>
       <div class="burger">
         <div class="line1"></div>

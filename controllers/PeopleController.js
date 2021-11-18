@@ -8,7 +8,7 @@ module.exports.getPeople = (req, res) => {
   Person.find({ user: req.user},null, { sort: { name : 1 } }, (err, people) => {
     if (err) console.log(err);
     console.log()
-    res.render("people/people", { user: req.user, people: people });
+    res.render("people/people", { user: req.user, people: people, message:req.flash('danger') });
   });
 };
 
@@ -16,7 +16,7 @@ module.exports.getPeopleSortedByName = (req,res) => {
   Person.find({user:req.user}, null, {sort: {name: 1}}, (err, people) => {
     if(err)console.log(err);
 
-    res.render('people/people', {user: req.user, people:people})
+    res.render('people/people', {user: req.user, people:people,message:req.flash('danger') })
 
   })
 }
@@ -121,7 +121,7 @@ module.exports.getPersonById = (req, res) => {
     if (err) console.log(err);
     Zaznam.find({person:person._id}, null, {sort: { createdAt : -1}}, (err, personPosts) => {
       if(err)console.log(err);
-      res.render("people/person", { user: req.user, person: person, personPosts: personPosts });
+      res.render("people/person", { user: req.user, person: person, personPosts: personPosts,message:req.flash('danger')  });
     })
     
   });

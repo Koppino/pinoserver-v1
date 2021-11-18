@@ -18,6 +18,8 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
     "gulp": "^4.0.2",
+    "iframe": "^1.0.0",
+    "jquery": "^3.6.0",
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.14",

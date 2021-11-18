@@ -2,7 +2,7 @@
 <div class="ui segment container">
   <%if(message.length >= 1) {%>
   <div class="ui red message">
-    <i class="close icon"></i>
+    <i class="close icon" onclick="closeMessage()"></i>
     <div class="header">
       <%- message %>
     </div>
@@ -99,9 +99,3 @@
 </script>
 
 
-<script>
-  function postsTydenZpett() {
-     console.log(<%=postsTydenZpet.length%>);
-  }
-  postsTydenZpett()
-</script>

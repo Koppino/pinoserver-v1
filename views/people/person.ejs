@@ -3,6 +3,14 @@
 <% } %>
 <div class="ui segment">
     <h3><%- person.name %></h3>
+    <%if(message.length >= 1) {%>
+      <div class="ui red message">
+        <i class="close icon" onclick="closeMessage()"></i>
+        <div class="header">
+          <%- message %>
+        </div>
+      </div>
+    <% } %>
   <div class="ui divider"></div>
   <div class="ui statistics">
     <div class="statistic">
