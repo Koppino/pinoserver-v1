@@ -47,6 +47,7 @@
         <div class="three wide column">
             <h3 class="">UŽIVATELÉ</h3>
             <ul class="chatUserList">
+                <% if (user.admin == false) {%>
                 <li>
                     <div class="listItem">
                         <img id="chatPrflPhoto" src="/public/images/user.png" alt="">
@@ -59,55 +60,42 @@
                         <a id="chatUserListItem" href="">ASIDSI</a>
                     </div>
                 </li>
+                <% } %>
             </ul>
         </div>
         <div class="thirteen wide column">
             <div class="ui segment">
                 <h3>ZPRÁVY</h3>
                 <div class="ui comments" style="justify-content: right; width: 100%;">
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/public/images/user.png">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                How artistic!
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment" style="justify-content: right; width: 100%;float: right;">
-                        <a class="avatar">
-                            <img src="/public/images/user.png">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                How artistic!
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
+                    <% chatMessages.forEach( msg => { %>
+                        <div class="comment">
+                            <a class="avatar">
+                                <img src="/public/images/user.png">
+                            </a>
+                            <div class="content">
+                                <a class="author">Matt</a>
+                                <div class="metadata">
+                                    <span class="date">Today at 5:42PM</span>
+                                </div>
+                                <div class="text">
+                                    How artistic!
+                                </div>
+                                <div class="actions">
+                                    <a class="reply">Reply</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <%})%>
                 </div>
 
-
+<!-- 
                 <div class="listItem">
                     <img id="chatPrflPhoto" src="/public/images/user.png" alt="">
                     <a id="chatUserListItem" href="">
                         <%-user.username%>
                     </a>
-                </div>
+                </div> -->
+                
                 <form action="" method="post" class="ui form" style="margin-top: 10px;">
                     <div class="field">
                         <textarea name="textMessage" id="" cols="30" rows="3"></textarea>

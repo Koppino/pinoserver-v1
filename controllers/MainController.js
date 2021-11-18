@@ -7,7 +7,6 @@ module.exports.getHomepage = (req, res) => {
 
 module.exports.getDashboard = (req, res) => {
   let tydenZpet = [];
-  console.log(tydenZpet.length);
 
   if (req.user.admin) {
     Zaznam.find(
@@ -17,11 +16,8 @@ module.exports.getDashboard = (req, res) => {
       async (err, posts) => {
         if (err) console.log(err);
         if (!posts) res.render("dashboard", { posts: null, user: req.user });
-        const predTydnem = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-        const predDvoumaDnama = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
-        console.log(predTydnem.getTime());
-        console.log(predDvoumaDnama.getTime());
 
+        const predTydnem = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         await posts.forEach((post) => {
           if (post.createdAt.getTime() >= predTydnem.getTime()) {
             console.log(post.createdAt.getTime() + " " + post.createdAt);
@@ -41,22 +37,6 @@ module.exports.getDashboard = (req, res) => {
         });
       }
     );
-  } else {
-    Person.findOne({ name: req.user.username }, (err, iam) => {
-      if (err) throw err;
-      const kokot = `/person/get/${iam._id}`;
-      res.redirect(kokot);
-    });
-  }
-};
-
-module.exports.getDashboardd = (req, res) => {
-  if (req.user.admin) {
-    res.render("dashboard", {
-      user: req.user,
-      message: req.flash("danger"),
-      posts: [],
-    });
   } else {
     Person.findOne({ name: req.user.username }, (err, iam) => {
       if (err) throw err;

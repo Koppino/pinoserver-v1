@@ -32,7 +32,7 @@ nav ul {
 .nav-links {
   display: flex;
   justify-content: space-around;
-  width: 30%;
+  width: 40%;
   z-index: 100;
 }
 .nav-links a {
