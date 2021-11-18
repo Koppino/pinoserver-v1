@@ -24,6 +24,9 @@ app.use(expressLayouts);
 
 app.set("view engine", "ejs");
 
+
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(flash());
@@ -36,15 +39,7 @@ app.use(morgan('dev'))
 app.use(cookieParser('keyboard cat'));
 app.use(session({ key: 'sid', cookie: { maxAge: 60000 }}));
 
-var myLogger = function (req, res, next) {
-  console.log(
-    new Date().toLocaleString("cs-EN").replace(" ", "").replace(" ", "")
-  );
-  if (req.session.flash) {
-    console.log(req.flash('info'));
-  }
-  next();
-};
+
 
 app.use("/", require("./routes/index"));
 app.use('/chat', require("./routes/chat"))
@@ -53,7 +48,6 @@ app.use("/acc", require("./routes/acc"));
 app.use("/posts", require("./routes/posts"));
 app.use("/api/ios/", require("./routes/apios"));
 
-app.use(myLogger);
 
 app.listen('1337', () => {
   console.log("server is running.");
