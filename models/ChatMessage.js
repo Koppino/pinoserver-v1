@@ -21,13 +21,13 @@ const ChatMessageSchema = new mongoose.Schema({
         type:String
     },
     createdAt: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
     opened:{
         type:Boolean,
         default:false
-    }
+    },
+    room:{type:mongoose.Schema.Types.ObjectId, ref:'ChatRoom'}
 })
 
 const ChatMessage = mongoose.model('ChatMessage', ChatMessageSchema);

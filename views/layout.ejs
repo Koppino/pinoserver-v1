@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
   <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@500;700&family=Oswald:wght@300;700&display=swap"
     rel="stylesheet" />
-
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/reset.css">
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/site.css">
   <link rel="stylesheet" type="text/css" href="/public/semantic/dist/components/grid.css">
@@ -29,8 +30,10 @@
   <script type="text/javascript" src="/public/semantic/dist/components/rating.js"></script>
   <script type="text/javascript" src="/public/semantic/dist/components/transition.js"></script>
   <script type="text/javascript" src="/public/semantic/dist/semantic.min.js"></script>
+  <link rel="stylesheet" href="/public/css/style.css" /> 
+  <script src="/socket.io/socket.io.js"></script>
 
-  <link rel="stylesheet" href="/public/css/style.css" />
+
   <title>PINO</title>
 </head>
 
@@ -75,7 +78,7 @@
     <% } %>
       <%- body %>
 
-        <script src="/public/js/app.js"></script>
+       <script src="/public/js/app.js"></script>
 </body>
 
 </html>
