@@ -1,3 +1,4 @@
+
 <style>
     li {
         list-style: none;
@@ -51,41 +52,64 @@
                 <li>
                     <div class="listItem">
                         <img id="chatPrflPhoto" src="/public/images/user.png" alt="">
-                        <a id="chatUserListItem" href="">LOPLOPT</a>
+                        <a id="chatUserListItem" href="/chat/<%-user.createdBy%>">PINO</a>
                     </div>
                 </li>
                 <li>
                     <div class="listItem">
                         <img id="chatPrflPhoto" src="/public/images/user.png" alt="">
-                        <a id="chatUserListItem" href="">ASIDSI</a>
+                        <a id="chatUserListItem" href="/chat/all">VŠICHNI</a>
                     </div>
                 </li>
-                <% } %>
+                <% } else {%>
+                    <% chatUsers.forEach((chatUser) => {%>
+                        <div class="listItem">
+                            <img id="chatPrflPhoto" src="/public/images/user.png" alt="">
+                            <a id="chatUserListItem" href="/chat/<%-chatUser._id%>"> <%- chatUser.username %></a>
+                        </div>
+                        <%})%>
+                    <% } %>
             </ul>
         </div>
         <div class="thirteen wide column">
             <div class="ui segment">
-                <h3>ZPRÁVY</h3>
-                <div class="ui comments" style="justify-content: right; width: 100%;">
+                <%if(chatUser) {%>
+                <h3><%=chatUser.username%> - ZPRÁVY</h3>
+                <%} else {%>
+                    <h3>Uživatelé</h3>
+                    <%}%>
+                <div class="ui divider"></div>
+                <div class="ui comments" style="justify-content: right; width: 100%;" id="chat-messages">
+                    <% if(chatMessages.length >= 1) {%>
+
                     <% chatMessages.forEach( msg => { %>
                         <div class="comment">
                             <a class="avatar">
                                 <img src="/public/images/user.png">
                             </a>
                             <div class="content">
-                                <a class="author">Matt</a>
+                                <a class="author"><%- msg.senderUserName %></a>
                                 <div class="metadata">
-                                    <span class="date">Today at 5:42PM</span>
+                                    <span class="date"><%-msg.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(11,16)%>
+                                        <%-msg.createdAt.toISOString().replace("T", " " ).replace("Z", " " ).substring(8,10)%>.
+                                          <%-msg.createdAt.toISOString().replace("T", "" ).replace("Z", "" ).substring(5,7)%>.</span>
                                 </div>
                                 <div class="text">
-                                    How artistic!
+                                    <%- msg.message %>
                                 </div>
                                 <div class="actions">
-                                    <a class="reply">Reply</a>
+                                    <!-- <a class="reply">Reply</a> -->
                                 </div>
                             </div>
                         </div>
                         <%})%>
+                        <% } else { %>
+                           <%if(chatUser) {%>
+                            <h4> Žádne zprávy s uživatelem <%- chatUser.username%></h4>
+                            <%} else {%>
+                            <h4> Zvolte uživatele.</h4>
+                       <%}%>
+                        <% } %>
                 </div>
 
 <!-- 
@@ -95,16 +119,46 @@
                         <%-user.username%>
                     </a>
                 </div> -->
-                
-                <form action="" method="post" class="ui form" style="margin-top: 10px;">
+                <form action="/chat/<%-chatUser._id%>" method="post" class="ui form" id="msg-form" style="margin-top: 10px;">
+                    <% if(chatUser) {%>
+                    <input type="text" name="reciverUserName" value="<%-chatUser.username%>" id="name-input" hidden>
+                    <%}%>
                     <div class="field">
-                        <textarea name="textMessage" id="" cols="30" rows="3"></textarea>
+                        <textarea name="textMessage" id="msg-textarea" cols="30" rows="3"></textarea>
                     </div>
                     <div class="field" style="height: 35px;">
                         <button class="ui form button right-aligned" type="submit">Odeslat</button>
                     </div>
+                    <input type="text" id="myname"value="<%-user.username%>"hidden>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    window.scrollTo(0, document.body.scrollHeight);
+    const socket = io()
+    const myname = document.getElementById('myname').value
+    var messages = document.getElementById('chat-messages');
+      var form = document.getElementById('msg-form');
+      var input = document.getElementById('msg-textarea');
+      var nameinput = document.getElementById('name-input');
+
+      form.addEventListener('submit', function(e) {
+        if (input.value) {
+          socket.emit('chat message', {msg:input.value, reciver:nameinput.value, sender:myname});
+            console.log(nameinput.value)
+        }
+      });
+
+      socket.on('chat message', function(msg) {
+          if(msg.reciver == myname && msg.sender == nameinput.value) {
+        var item = document.createElement('div');
+        item.textContent = msg.msg;
+        
+        window.location.reload(true)
+        window.scrollTo(0, document.body.scrollHeight);
+          }
+      });
+</script>
