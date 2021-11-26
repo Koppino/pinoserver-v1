@@ -26,7 +26,7 @@ module.exports.getChatViewWithFriend = (req, res) => {
       if (!friend) return console.log("no reciver.");
 
       ChatRoom.findOne(
-        { users: [req.user, friend] || [friend, req.user] },
+        { users: [req.user, friend] },
         (err, room) => {
           if (err) return console.log(err);
           if (!room) {
@@ -96,6 +96,7 @@ module.exports.postMessage = (req, res) => {
 
         newMsg2.save(() => {
           console.log("chat message2 added.");
+          Socket.EventEmitter("chat message", newMsg2)
         });
       });
 
