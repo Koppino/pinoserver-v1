@@ -1,18 +1,19 @@
 <style>
     li {
         list-style: none;
-       
+
     }
 
     li a {
         letter-spacing: 3px;
     }
+
     #chatPrflPhoto {
         width: 35px;
         height: 35px;
     }
 
-  
+
 
     #chatUserListItem {}
 
@@ -83,13 +84,11 @@
                         <h3>Uživatelé</h3>
                         <%}%>
                             <div class="ui divider"></div>
-                            <ul>
-                                <div class="ui comments" style="justify-content: right; width: 100%;" id="chat-messages">
-                                <% if(chatMessages.length>= 1) {%>
 
+                            <ul class="ui comments" style="justify-content: right; width: 100%;" id="chat-messages">
+                                <% if(chatMessages.length>= 1) {%>
                                     <% chatMessages.forEach( msg=> { %>
-                                        <li>
-                                            <div class="comment">
+                                        <li class="comment">
                                             <a class="avatar">
                                                 <img src="/public/images/user.png">
                                             </a>
@@ -114,18 +113,20 @@
                                                     <!-- <a class="reply">Reply</a> -->
                                                 </div>
                                             </div>
-                                        </div>
                                         </li>
-                                        
+
                                         <%})%>
                                             <% } else { %>
+                                                <% if(chatUser.username) {%>
+                                                    <h4> Nemáte žádné zprávy s uživatelem <%- chatUser.username %>
+                                                    </h4>
+                                                    <% } else {%>
+                                                        <h4> Zvolte uživatele.</h4>
 
-                                                <h4> Zvolte uživatele.</h4>
+                                                        <% }} %>
 
-                                                <% } %>
-                            </div>
                             </ul>
-                            
+
 
                             <!-- 
                 <div class="listItem">
@@ -155,28 +156,31 @@
 </div>
 
 
-        <script>
+<script>
+    window.scrollTo(0, document.body.scrollHeight);
+    const socket = io()
+    const myname = document.getElementById('myname').value
+    var messages = document.getElementById('chat-messages');
+    var form = document.getElementById('msg-form');
+    var input = document.getElementById('msg-textarea');
+    var nameinput = document.getElementById('name-input');
+
+    form.addEventListener('submit', function (e) {
+        if (input.value) {
+            socket.emit('chat message', { msg: input.value, reciver: nameinput.value, sender: myname });
+            console.log(nameinput.value);
+        }
+    });
+
+    socket.on('chat message', function (msg) {
+        if (msg.reciver == myname && msg.sender == nameinput.value) {
+
+            $(document).ready(function () {
+                setInterval(function () {
+                    $("#chat-messages").load(window.location.href + " #chat-messages");
+                }, 1000);
+            });
             window.scrollTo(0, document.body.scrollHeight);
-            const socket = io()
-            const myname = document.getElementById('myname').value
-            var messages = document.getElementById('chat-messages');
-            var form = document.getElementById('msg-form');
-            var input = document.getElementById('msg-textarea');
-            var nameinput = document.getElementById('name-input');
-
-            form.addEventListener('submit', function (e) {
-                if (input.value) {
-                    socket.emit('chat message', { msg: input.value, reciver: nameinput.value, sender: myname });
-                    console.log(nameinput.value)
-                }
-            });
-
-            socket.on('chat message', function (msg) {
-                if (msg.reciver == myname && msg.sender == nameinput.value) {
-                
-
-                    window.location.reload(true)
-                    window.scrollTo(0, document.body.scrollHeight);
-                }
-            });
-        </script>
+        }
+    });
+</script>
